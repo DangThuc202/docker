@@ -1,27 +1,25 @@
 version: '3.8'
 
 services:
-  web:
+  nodejs:
     build: ./nodejs
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      - mysql_db
     environment:
-      - DB_HOST=db
-      - DB_USER=root
-      - DB_PASSWORD=password
-      - DB_NAME=php  
+      DB_HOST: mysql_db
+      DB_PORT: 3306
+      DB_USER: thuc
+      DB_PASSWORD: thuc
 
-  db:
+  mysql_db:
     image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: thuc
+      MYSQL_DATABASE: db
+      MYSQL_USER: thuc
+      MYSQL_PASSWORD: thuc
     ports:
       - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: php  
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-volumes:
-  mysql-data:
